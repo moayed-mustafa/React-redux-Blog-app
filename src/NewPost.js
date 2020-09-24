@@ -14,7 +14,7 @@ import { v4 as uuid } from 'uuid';
 
 export default function NewPost({setter}) {
 
-    const initialState = {id: uuid(), title: "", description:"", body:""}
+    const initialState = {id: uuid(), comments:[], title: "", description:"", body:""}
     const [formData, setFormData] = useState(initialState)
 
 
@@ -33,6 +33,7 @@ export default function NewPost({setter}) {
         //  * I need the setter function here so I can add the new blog to the list of blogs
         e.preventDefault()
         //  * set the state
+        // formData.comments = []
         setter(data => data = [...data, formData])
         setFormData(initialState)
     }

@@ -10,6 +10,6 @@ export default function HomeNavigation() {
         <>
         <Link className="m-2" to="/">Blog</Link>
             <Link to="/new">Add a new Blog</Link>
-            </>
+        </>
     )
 }

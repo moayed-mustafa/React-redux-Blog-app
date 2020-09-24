@@ -25,9 +25,7 @@ export default function HomePage({blogs}) {
                     </Col>
                 </Row>
                 <Row>
-                    {/* <Col xs="6"> */}
                     <PostsList blogs={blogs} />
-                    {/* </Col> */}
                 </Row>
 
 
