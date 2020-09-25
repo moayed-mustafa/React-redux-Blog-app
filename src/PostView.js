@@ -28,6 +28,8 @@ export default function PostView({ blogs }) {
     const history = useHistory()
     //  * an action function to  delete the blog
     function deleteBlog(e) {
+        e.persist()
+        console.log(blogs.filter(blog => blog.id !== e.target.parentElement.id))
         setBlogs(data => data = data.filter(blog => blog.id !== e.target.parentElement.id))
         history.push("/")
 
