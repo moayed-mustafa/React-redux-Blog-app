@@ -13,17 +13,19 @@ import { useHistory } from 'react-router-dom'
 
 
 export default function PostsList({ blogs }) {
+    let blogData = Object.values(blogs)
+    // let Ids = Object.keys(blogs)
     const history = useHistory()
     function redirect(e) {
         history.push(`/${e.target.id}`)
     }
 
-    if (blogs.length === 0) {
+    if (blogData.length === 0) {
         return <h3>No Blogs yet....</h3>
     }
     return (
 <>
-            {blogs.map(blog => (
+            {blogData.map(blog => (
                 <Col xs="4" key={blog.id}>
                     < Card >
                         <CardBody>

@@ -5,14 +5,8 @@ import { Container, Row, Col, } from 'reactstrap';
 import PostsList from './PostsList'
 import Welcome from './Welcome'
 
-/*
- * initiate the state here
- * pass the blogs down as a prop to PostList
- * Make a context out of the blogs and the setter function as well
- * unpack it on Routes Page
- * Pass it to the form
-
- */
+//  todo: keep the props
+// todo: add prop {blogs} to homepage, it will be passed down to PostList
 
 export default function HomePage({blogs}) {
 
@@ -24,6 +18,7 @@ export default function HomePage({blogs}) {
                         <Welcome/>
                     </Col>
                 </Row>
+                {/* todo: add this later once you figure out the dispatch action */}
                 <Row>
                     <PostsList blogs={blogs} />
                 </Row>

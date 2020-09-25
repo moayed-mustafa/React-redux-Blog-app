@@ -8,18 +8,24 @@ import {
 } from 'reactstrap'
 import { useHistory, useParams } from 'react-router-dom'
 import { v4 as uuid } from 'uuid';
+import {useSelector, useDispatch} from 'react-redux'
 
 
 
 
-export default function NewPost({blogs, setter }) {
 
+export default function NewPost() {
+
+    //  todo: remove the props, import useSelector to get the store and useDispatch to dispatch actions
     const { id } = useParams()
+    const blogs = useSelector(st => st)
 
+
+    // todo: will need to change the composition of this ternary operator soon
     //  * if id is not available: start out with an empty form data state
     const initialState = id === undefined ? { id: uuid(), comments: [], title: "", description: "", body: "" }
         // * if id is available, load the data that has that id into the form,
-        : blogs.filter(blog => blog.id === id)[0]
+        : blogs[id]
     //  * set the state for the forms
     const [formData, setFormData] = useState(initialState)
 
@@ -27,6 +33,7 @@ export default function NewPost({blogs, setter }) {
     const history = useHistory()
     function changeData(e) {
         e.persist()
+        //  * leave as is
         setFormData(data => ({
             ...data,
             [e.target.name]: e.target.value,
@@ -35,19 +42,26 @@ export default function NewPost({blogs, setter }) {
 
 
 
+    const dispatch = useDispatch()
     function submit(e) {
         e.preventDefault()
         //  * I need the setter function here so I can add the new blog to the list of blogs
         e.preventDefault()
         //  * set the state
         if (id === undefined) {
-            setter(data => data = [...data, formData])
+            //  todo : dispatch action instead ---> add_New_Blog
+            dispatch({type:"ADD_NEW_POST", blog:formData})
+            // setter(data => data = [...data, formData])
+            // * leave the form data as is
             setFormData(initialState)
         }
         else {
-            //  * delete that item first
-            setter(data => data = data.filter(blog => blog.id !== id))
-            setter(data => data = [...data, formData])
+            //  todo: dispatch actions instead ---> delete_Blog --->  add_New_Blog
+            // * this editing a blog and it's not working right now
+            // setter(data => data = data.filter(blog => blog.id !== id))
+            dispatch({type:"DELETE_POST", id})
+            // setter(data => data = [...data, formData])
+            dispatch({type:"ADD_NEW_POST", blog:formData})
             history.push("/")
         }
 

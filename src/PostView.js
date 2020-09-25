@@ -12,6 +12,7 @@ import {
 import Welcome from './Welcome'
 import PostComments from './PostComments'
 import BlogsContext from './BlogsContext'
+import {useDispatch} from 'react-redux'
 
 
 
@@ -19,28 +20,32 @@ import BlogsContext from './BlogsContext'
 export default function PostView({ blogs }) {
 
 
+    //  todo remove the context, add more prop, setBlogs
     //  * Add the comments page here
 
     const { id } = useParams()
-    let blog = blogs.filter(blog => blog.id === id)[0]
+    //  todo: this is not going to work, use Object.values
+    let blogData = Object.values(blogs)
+    // let blog = blogs.filter(blog => blog.id === id)[0]
 
-    const { setBlogs } = useContext(BlogsContext)
+    //  todo: remove this
+    // const { setBlogs } = useContext(BlogsContext)
     const history = useHistory()
     //  * an action function to  delete the blog
+    // todo: this should dispatch an action
+    const dispatch = useDispatch()
     function deleteBlog(e) {
         e.persist()
-        console.log(blogs.filter(blog => blog.id !== e.target.parentElement.id))
-        setBlogs(data => data = data.filter(blog => blog.id !== e.target.parentElement.id))
+        // console.log(blogs.filter(blog => blog.id !== e.target.parentElement.id))
+        // setBlogs(data => data = data.filter(blog => blog.id !== e.target.parentElement.id))
+        dispatch({ type: "DELETE_POST", id })
         history.push("/")
 
     }
     //  * an action function to  edit the bog
+
     function editBlog(e) {
-        console.log(e.target.parentElement.id)
         history.push(`/new/${e.target.parentElement.id}`)
-
-
-
     }
 
     return (
@@ -59,15 +64,14 @@ export default function PostView({ blogs }) {
                             aria-label="emoji">🖋</span>
 
                         <CardBody>
-                            <b><CardTitle>Title:{blog.title}</CardTitle></b>
-                    <CardSubtitle>Description: {blog.description}</CardSubtitle>
-                    <CardText> {blog.body}</CardText>
+                            <b><CardTitle>Title:{blogData.title}</CardTitle></b>
+                    <CardSubtitle>Description: {blogData.description}</CardSubtitle>
+                    <CardText> {blogData.body}</CardText>
                         </CardBody>
                     </Card >
             </Col>
             <Col xs="6">
-                {/*  I want to add comments here */}
-            <PostComments blogs={blogs} />
+            <PostComments  />
             </Col>
         </Row>
     )
