@@ -7,7 +7,6 @@ import HomePage from './Homepage'
 import NewPost from './NewPost'
 import PostView from './PostView'
 import BlogsContext from './BlogsContext'
-// import PostList from './PostList'
 export default function Routes() {
 
 
@@ -23,6 +22,9 @@ export default function Routes() {
                 </Route>
                 <Route exact path="/new">
                     <NewPost setter={setBlogs}/>
+                </Route>
+                <Route exact path="/new/:id">
+                    <NewPost blogs={blogs}setter={setBlogs}/>
                 </Route>
                 <Route exact path="/:id">
                     <PostView blogs={blogs}/>

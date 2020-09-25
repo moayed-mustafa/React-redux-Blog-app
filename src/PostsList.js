@@ -15,11 +15,9 @@ import { useHistory } from 'react-router-dom'
 export default function PostsList({ blogs }) {
     const history = useHistory()
     function redirect(e) {
-        console.log(e.target.id)
         history.push(`/${e.target.id}`)
     }
 
-    console.log(blogs)
     if (blogs.length === 0) {
         return <h3>No Blogs yet....</h3>
     }

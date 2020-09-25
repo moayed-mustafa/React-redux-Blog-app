@@ -8,8 +8,6 @@ import { v4 as uuid } from 'uuid';
 import { Form, Input,Button, FormGroup} from 'reactstrap'
 
 export default function PostComments() {
-    // const [comments, setComments] = useState()
-    // const { id } = useParams()
     const { id } = useParams()
     const {blogs, setBlogs} = useContext(BlogsContext)
     const comments = blogs.filter(blog => blog.id === id)[0].comments
@@ -27,21 +25,22 @@ export default function PostComments() {
         e.preventDefault()
         let clone = [...blogs]
         clone.filter(blog => blog.id === id)[0].comments.push(formData)
-        setBlogs(data=> data=clone)
+        setBlogs(data => data = clone)
+        setFormData({ id:uuid(),  comment: "" })
 
     }
 
     function deleteComment(e) {
 
-        //  *rethink this
+        //  *clone the state
         let clone = [...blogs]
+        //  * filter it to get out the comments list
         let comments = clone.filter(blog => blog.id === id)[0].comments
-        console.log(comments)
-        let found = comments.filter(comment => comment.id === e.target.id)[0]
-        console.log(found)
-        console.log(comments.indexOf(found))
-        comments = comments.splice(comments[found], comments[found])
-        clone.filter(blog => blog.id === id)[0].comments = comments
+        // * filter the comments list to be everything but the comment clicked on
+        let newComments = comments.filter(comment => comment.id !== e.target.id)
+    //     * make the comments list inside of the state clone equal to the new filtered comments list
+        clone.filter(blog => blog.id === id)[0].comments = newComments
+        //  * update the state
         setBlogs(data=> data= clone)
     }
     // console.log(comments)
