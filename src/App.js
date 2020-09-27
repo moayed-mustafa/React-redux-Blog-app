@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import Routes from './Routes'
 import { BrowserRouter as Router } from 'react-router-dom'
-import BlogsContext from './BlogsContext'
+// import BlogsContext from './BlogsContext'
 
 
 //  * I don't need the context here anymore
@@ -10,15 +10,15 @@ import BlogsContext from './BlogsContext'
 //  todo: for this component, only remove the state and context
 function App() {
 
-  const [blogs, setBlogs] = useState([])
+  // const [blogs, setBlogs] = useState([])
   return (
     <div className="App">
       {/* <header className="App-header"> */}
       <Router>
-        <BlogsContext.Provider
-            value={{blogs, setBlogs}}>
+        {/* <BlogsContext.Provider
+            value={{blogs, setBlogs}}> */}
               <Routes />
-          </BlogsContext.Provider>
+          {/* </BlogsContext.Provider> */}
       </Router>
       {/* </header> */}
     </div>

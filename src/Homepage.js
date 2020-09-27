@@ -5,10 +5,9 @@ import { Container, Row, Col, } from 'reactstrap';
 import PostsList from './PostsList'
 import Welcome from './Welcome'
 
-//  todo: keep the props
-// todo: add prop {blogs} to homepage, it will be passed down to PostList
 
-export default function HomePage({blogs}) {
+export default function HomePage({ blogs }) {
+    //  todo the blogs prop is going to be removed from here and not passed down to the PostList component
 
     return (
         <>

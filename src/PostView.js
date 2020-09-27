@@ -26,18 +26,14 @@ export default function PostView({ blogs }) {
     const { id } = useParams()
     //  todo: this is not going to work, use Object.values
     let blogData = Object.values(blogs)
-    // let blog = blogs.filter(blog => blog.id === id)[0]
 
     //  todo: remove this
-    // const { setBlogs } = useContext(BlogsContext)
     const history = useHistory()
     //  * an action function to  delete the blog
     // todo: this should dispatch an action
     const dispatch = useDispatch()
     function deleteBlog(e) {
         e.persist()
-        // console.log(blogs.filter(blog => blog.id !== e.target.parentElement.id))
-        // setBlogs(data => data = data.filter(blog => blog.id !== e.target.parentElement.id))
         dispatch({ type: "DELETE_POST", id })
         history.push("/")
 
@@ -64,9 +60,9 @@ export default function PostView({ blogs }) {
                             aria-label="emoji">🖋</span>
 
                         <CardBody>
-                            <b><CardTitle>Title:{blogData.title}</CardTitle></b>
-                    <CardSubtitle>Description: {blogData.description}</CardSubtitle>
-                    <CardText> {blogData.body}</CardText>
+                            <b><CardTitle>Title:{blogData[0].title}</CardTitle></b>
+                    <CardSubtitle>Description: {blogData[0].description}</CardSubtitle>
+                    <CardText> {blogData[0].body}</CardText>
                         </CardBody>
                     </Card >
             </Col>

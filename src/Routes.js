@@ -7,16 +7,17 @@ import HomePage from './Homepage'
 
 import NewPost from './NewPost'
 import PostView from './PostView'
+import {getPostsFromApi} from './actionCreators'
 // import BlogsContext from './BlogsContext'
 export default function Routes() {
 
-    // todo: remove context hook, keep the props  on homepage,
-    // todo: remove it from NewPost, add prop setBlogs to PostView
+    //  todo: get blogs from the api overhere
 
-    // const { blogs, setBlogs } = useContext(BlogsContext)
 
-    const blogs = useSelector(st => st)
-    // console.log(blogs)
+
+    // const blogs = useSelector(st => st)
+    let blogs = getPostsFromApi()
+    console.log(blogs)
     return (
         <div>
 

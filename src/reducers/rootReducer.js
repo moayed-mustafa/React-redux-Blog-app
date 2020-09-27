@@ -4,8 +4,11 @@
 const initialState =   {}
 export default function rootReducer(state = initialState, action) {
     switch (action.type) {
-        case "ADD_NEW_POST":
 
+        case "GET_POSTS":
+            return {...state, ...action.blogs }
+
+        case "ADD_NEW_POST":
             return {...state, [action.blog.id]:action.blog}
 
         case "DELETE_POST":
