@@ -6,8 +6,9 @@ export default function rootReducer(state = initialState, action) {
     switch (action.type) {
 
         case "GET_POSTS":
-            return {...state, ...action.blogs }
-
+            let data = {}
+             action.blogs.forEach(blog => (data[blog.id]= blog ))
+            return {...state, ...data }
         case "ADD_NEW_POST":
             return {...state, [action.blog.id]:action.blog}
 

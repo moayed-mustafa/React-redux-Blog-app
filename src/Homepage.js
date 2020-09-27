@@ -6,7 +6,7 @@ import PostsList from './PostsList'
 import Welcome from './Welcome'
 
 
-export default function HomePage({ blogs }) {
+export default function HomePage() {
     //  todo the blogs prop is going to be removed from here and not passed down to the PostList component
 
     return (
@@ -19,7 +19,7 @@ export default function HomePage({ blogs }) {
                 </Row>
                 {/* todo: add this later once you figure out the dispatch action */}
                 <Row>
-                    <PostsList blogs={blogs} />
+                    <PostsList  />
                 </Row>
 
 

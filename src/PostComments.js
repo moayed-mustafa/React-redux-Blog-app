@@ -1,9 +1,8 @@
 
-import React, { useState,useContext } from 'react'
-import BlogsContext from './BlogsContext'
+import React, { useState} from 'react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuid } from 'uuid';
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 import { Form, Input,Button, FormGroup} from 'reactstrap'
@@ -12,8 +11,8 @@ export default function PostComments() {
     const { id } = useParams()
     // *move this away, replace it with store
     const blogs = useSelector(st => st)
-    // const {blogs, setBlogs} = useContext(BlogsContext)
-    // const comments = blogs.filter(blog => blog.id === id)[0].comments
+    const dispatch = useDispatch()
+
     const comments = blogs[id].comments
     const [formData, setFormData] = useState({ id:uuid(),  text: "" })
 
@@ -25,7 +24,7 @@ export default function PostComments() {
         }))
     }
 
-    const dispatch = useDispatch()
+
     function submit(e) {
         e.preventDefault()
         dispatch({ type: "ADD_COMMENT_ON_POST", comment: formData, id })
@@ -34,25 +33,15 @@ export default function PostComments() {
     }
 
     function deleteComment(e) {
-
-        //  *clone the state
-        // let clone = [...blogs]
-        //  * filter it to get out the comments list
-        // let comments = clone.filter(blog => blog.id === id)[0].comments
-        // * filter the comments list to be everything but the comment clicked on
-        // let newComments = comments.filter(comment => comment.id !== e.target.id)
-    //     * make the comments list inside of the state clone equal to the new filtered comments list
-        // clone.filter(blog => blog.id === id)[0].comments = newComments
-        //  * update the state
-        //  todo dispatch an action here too
-        // setBlogs(data=> data= clone)
+         //  todo dispatch an action here too
         dispatch({type:"DELETE_COMMENT_FROM_POST", id, commentId: e.target.id})
     }
-    // console.log(comments)
     return (
         <div className="m-2">
             <h3>Comments</h3>
-            {comments.map((comment, i) => (
+        {
+                comments ?
+            comments.map((comment, i) => (
                 <p key={i}>
                     <span role="img"
                         aria-label="emoji"
@@ -61,7 +50,10 @@ export default function PostComments() {
                         ❌
                     </span> {` ${comment.text}`}
                     </p>
-            ))}
+            ))
+            :
+            <h1>No comments to show...</h1>
+        }
             <Form onSubmit={submit}>
                 <FormGroup>
                     <Input type="text" name="text" onChange={changeComment} value={formData.text}></Input>

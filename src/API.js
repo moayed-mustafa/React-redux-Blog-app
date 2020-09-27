@@ -9,13 +9,14 @@ class BlogApi{
 
     //  * get all posts
     static async getAllPosts() {
-        // try {
         let res = await axios.get(`${BASE_URL}/api/posts`)
-        console.log(" at the api page")
+        console.log(" at the api page getting posts")
         return res
-        // } catch (e) {
-        //     console.log(e)
-        // }
+    }
+    static async getAllComments(id) {
+        let res = await axios.get(`${BASE_URL}/api/posts/${id}/comments`)
+        console.log(" at the api page, getting comments ")
+        return res
     }
 }
 

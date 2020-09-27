@@ -2,23 +2,34 @@
 
 //  * should view all posts in the system in cards view
 
-import React from 'react'
+import React, {useEffect} from 'react'
 import {
     Card, CardBody,
     CardTitle, CardSubtitle, Button, Col
 } from 'reactstrap';
 
 import { useHistory } from 'react-router-dom'
-import API from './API'
+import {useSelector, useDispatch} from 'react-redux'
+import {getPostsFromApi} from './actionCreators'
+
 
 //  todo this is where I want to make a request to my api
 //  todo: instead of having the blogs coming down, I will make a request here to get all blogs from my database
 
 
-export default function PostsList({blogs}) {
-    let blogData = Object.values(blogs)
+export default function PostsList() {
+    // let blogData = Object.values(blogs)
     // let blogData = "get the stuff from the backend"
     // let Ids = Object.keys(blogs)
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+            let blogs = getPostsFromApi()
+            dispatch(blogs)
+
+    }, [dispatch])
+    const blogs = useSelector(st => st)
+    let blogData = Object.values(blogs)
     const history = useHistory()
     function redirect(e) {
         history.push(`/${e.target.id}`)
