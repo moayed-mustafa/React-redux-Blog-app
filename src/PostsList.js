@@ -24,8 +24,8 @@ export default function PostsList() {
 
     const dispatch = useDispatch()
     useEffect(() => {
-            let blogs = getPostsFromApi()
-            dispatch(blogs)
+
+            dispatch(getPostsFromApi())
 
     }, [dispatch])
     const blogs = useSelector(st => st)

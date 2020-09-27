@@ -7,8 +7,9 @@ import {
     Form, Input, Label, Button, FormGroup
 } from 'reactstrap'
 import { useHistory, useParams } from 'react-router-dom'
-import { v4 as uuid } from 'uuid';
-import {useSelector, useDispatch} from 'react-redux'
+// import { v4 as uuid } from 'uuid';
+import { useSelector, useDispatch } from 'react-redux'
+import {makePostOnApi, updatePostOnApi} from './actionCreators'
 
 
 
@@ -16,18 +17,16 @@ import {useSelector, useDispatch} from 'react-redux'
 
 export default function NewPost() {
 
-    //  todo: remove the props, import useSelector to get the store and useDispatch to dispatch actions
+
     const { id } = useParams()
     const blogs = useSelector(st => st)
 
-
-    // todo: will need to change the composition of this ternary operator soon
-    //  * if id is not available: start out with an empty form data state
-    const initialState = id === undefined ? { id: uuid(), comments: [], title: "", description: "", body: "" }
+    const initialState = id === undefined ? { title: "", description: "", body: "" }
         // * if id is available, load the data that has that id into the form,
         : blogs[id]
     //  * set the state for the forms
     const [formData, setFormData] = useState(initialState)
+
 
 
     const history = useHistory()
@@ -40,28 +39,21 @@ export default function NewPost() {
         }))
     }
 
-
-
     const dispatch = useDispatch()
     function submit(e) {
+
         e.preventDefault()
-        //  * I need the setter function here so I can add the new blog to the list of blogs
-        e.preventDefault()
-        //  * set the state
+
+        //  *  ADDING A NEW POST
         if (id === undefined) {
-            //  todo : dispatch action instead ---> add_New_Blog
-            dispatch({type:"ADD_NEW_POST", blog:formData})
-            // setter(data => data = [...data, formData])
-            // * leave the form data as is
+            console.log(formData)
+            dispatch(makePostOnApi(formData))
             setFormData(initialState)
         }
+        //  * EDITING AN EXISTING POST
         else {
-            //  todo: dispatch actions instead ---> delete_Blog --->  add_New_Blog
-            // * this editing a blog and it's not working right now
-            // setter(data => data = data.filter(blog => blog.id !== id))
-            dispatch({type:"DELETE_POST", id})
-            // setter(data => data = [...data, formData])
-            dispatch({type:"ADD_NEW_POST", blog:formData})
+            dispatch(updatePostOnApi(formData))
+
             history.push("/")
         }
 

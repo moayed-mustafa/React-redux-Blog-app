@@ -3,7 +3,7 @@
 
 //  * should view a post with a certain id
 
-import React, {useContext} from 'react'
+import React from 'react'
 import { useParams, useHistory, Redirect } from 'react-router-dom'
 import {
     Card, CardBody,
@@ -11,8 +11,8 @@ import {
 } from 'reactstrap';
 import Welcome from './Welcome'
 import PostComments from './PostComments'
-import BlogsContext from './BlogsContext'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import {deleteBlogPost} from './actionCreators'
 
 
 
@@ -20,22 +20,19 @@ import {useDispatch, useSelector} from 'react-redux'
 export default function PostView() {
 
 
-    //  todo remove the context, add more prop, setBlogs
-    //  * Add the comments page here
+
 
     const blogs = useSelector(st=> st)
     const { id } = useParams()
-    //  todo: this is not going to work, use Object.values
-    let blogData = Object.values(blogs)
 
-    //  todo: remove this
+
     const history = useHistory()
-    //  * an action function to  delete the blog
-    // todo: this should dispatch an action
+
     const dispatch = useDispatch()
     function deleteBlog(e) {
         e.persist()
-        dispatch({ type: "DELETE_POST", id })
+        // dispatch({ type: "DELETE_POST", id })
+        dispatch(deleteBlogPost(id))
         history.push("/")
 
     }
@@ -61,13 +58,12 @@ export default function PostView() {
                             aria-label="emoji">🖋</span>
 
                         <CardBody>
-                            <b><CardTitle>Title:{blogData[0].title}</CardTitle></b>
-                    <CardSubtitle>Description: {blogData[0].description}</CardSubtitle>
-                    <CardText> {blogData[0].body}</CardText>
+                            <b><CardTitle>Title:{blogs[id].title}</CardTitle></b>
+                    <CardSubtitle>Description: {blogs[id].description}</CardSubtitle>
+                    <CardText> {blogs[id].body}</CardText>
                         </CardBody>
                     </Card >
             </Col>
-            {/*  todo: comment this in the meantime, till I figure out how to change the form of my data in regards to comments */}
             <Col xs="6">
             <PostComments  />
             </Col>

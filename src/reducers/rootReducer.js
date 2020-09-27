@@ -8,22 +8,27 @@ export default function rootReducer(state = initialState, action) {
         case "GET_POSTS":
             let data = {}
              action.blogs.forEach(blog => (data[blog.id]= blog ))
-            return {...state, ...data }
+            return { ...state, ...data }
+
         case "ADD_NEW_POST":
-            return {...state, [action.blog.id]:action.blog}
+            console.log(" at the reducer making a post")
+            return { ...state, [action.blog.id]: action.blog }
+        case "UPDATE_POST":
+            return {...state,[action.blog.id]: action.blog }
 
         case "DELETE_POST":
             delete (state[action.id])
             return {...state}
         case "ADD_COMMENT_ON_POST":
-            let comments = [...state[action.id].comments]
+            console.log(state[action.postId].comments)
+            let comments = state[action.postId].comments
             comments.push(action.comment)
-            state[action.id].comments = comments
+            state[action.postId].comments = comments
             return {...state}
         case "DELETE_COMMENT_FROM_POST":
-            let allComments = [...state[action.id].comments]
+            let allComments = [...state[action.postId].comments]
             let filteredComments = allComments.filter(comment => comment.id !== action.commentId)
-            state[action.id].comments = filteredComments
+            state[action.postId].comments = filteredComments
             return {...state}
 
 
