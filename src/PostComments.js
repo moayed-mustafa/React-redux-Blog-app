@@ -15,7 +15,7 @@ export default function PostComments() {
     // const {blogs, setBlogs} = useContext(BlogsContext)
     // const comments = blogs.filter(blog => blog.id === id)[0].comments
     const comments = blogs[id].comments
-    const [formData, setFormData] = useState({ id:uuid(),  comment: "" })
+    const [formData, setFormData] = useState({ id:uuid(),  text: "" })
 
     function changeComment(e) {
         e.persist()
@@ -29,7 +29,7 @@ export default function PostComments() {
     function submit(e) {
         e.preventDefault()
         dispatch({ type: "ADD_COMMENT_ON_POST", comment: formData, id })
-        setFormData({ id:uuid(),  comment: "" })
+        setFormData({ id:uuid(),  text: "" })
 
     }
 
@@ -59,12 +59,12 @@ export default function PostComments() {
                             onClick={deleteComment}
                             id={comment.id}>
                         ❌
-                    </span> {` ${comment.comment}`}
+                    </span> {` ${comment.text}`}
                     </p>
             ))}
             <Form onSubmit={submit}>
                 <FormGroup>
-                    <Input type="text" name="comment" onChange={changeComment} value={formData.comment}></Input>
+                    <Input type="text" name="text" onChange={changeComment} value={formData.text}></Input>
                     <Button  className="m-2"color="primary">Add</Button>
                 </FormGroup>
             </Form>
