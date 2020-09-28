@@ -38,15 +38,35 @@ function addCommentOnApi(comment, postId) {
     console.log('at the action craetor crating a comment')
     return async function (dispatch) {
         let { data } = await BlogApi.addComment(comment, postId)
-        dispatch({type:"ADD_COMMENT_ON_POST", comment:data, postId})
+        let { id, text } = data
+        id = id.toString()
+        let newData = { id, text }
+        dispatch({type:"ADD_COMMENT_ON_POST", comment:newData, postId})
     }
 }
 
+function updateCommentOnApi(commentData, postId) {
+    console.log('at the action craetor updating a comment')
+    return async function (dispatch) {
+        let { data } = await BlogApi.updateComment(postId, commentData)
+        let { id, text } = data
+        id = id.toString()
+        let newData = {id, text}
+        dispatch({type:"UPDATE_COMMENT_ON_POST", data:newData, postId})
+    }
+}
 function deleteCommentOnApi(postId, commentId) {
     console.log('at the action craetor deleting a post')
     return async function (dispatch) {
         await BlogApi.deleteComment(postId,commentId)
         dispatch({type:"DELETE_COMMENT_FROM_POST", commentId, postId})
+    }
+}
+
+function voteOnApi(id, direction) {
+    return async function (dispatch) {
+        let { data } = await BlogApi.Vote(id, direction)
+        dispatch({type:"VOTE", data, id})
     }
 }
 
@@ -68,4 +88,8 @@ function createdPost(data) {
 }
 
 
-export { getPostsFromApi, makePostOnApi, deleteBlogPost, updatePostOnApi,addCommentOnApi, deleteCommentOnApi}
+export {
+    getPostsFromApi, makePostOnApi, deleteBlogPost,
+    updatePostOnApi, addCommentOnApi, deleteCommentOnApi,
+    updateCommentOnApi, voteOnApi
+}

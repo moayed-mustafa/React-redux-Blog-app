@@ -7,7 +7,6 @@ import {
     Form, Input, Label, Button, FormGroup
 } from 'reactstrap'
 import { useHistory, useParams } from 'react-router-dom'
-// import { v4 as uuid } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux'
 import {makePostOnApi, updatePostOnApi} from './actionCreators'
 

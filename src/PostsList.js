@@ -4,23 +4,18 @@
 
 import React, {useEffect} from 'react'
 import {
-    Card, CardBody,
+    Card, CardBody, Badge,
     CardTitle, CardSubtitle, Button, Col
 } from 'reactstrap';
 
 import { useHistory } from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
-import {getPostsFromApi} from './actionCreators'
+import {getPostsFromApi,voteOnApi} from './actionCreators'
 
 
-//  todo this is where I want to make a request to my api
-//  todo: instead of having the blogs coming down, I will make a request here to get all blogs from my database
 
 
 export default function PostsList() {
-    // let blogData = Object.values(blogs)
-    // let blogData = "get the stuff from the backend"
-    // let Ids = Object.keys(blogs)
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -38,15 +33,25 @@ export default function PostsList() {
     if (blogData.length === 0) {
         return <h3>No Blogs yet....</h3>
     }
+
+
+    function vote(e) {
+        dispatch(voteOnApi(e.target.id, e.target.title))
+    }
     return (
 <>
-            {blogData.map(blog => (
-                <Col xs="4" key={blog.id}>
+            {blogData.sort((a,b)=> b.votes - a.votes).map(blog => (
+                <Col xs="4" key={blog.id} className="m-2">
                     < Card >
                         <CardBody>
                             <b><CardTitle>Title: {blog.title}</CardTitle></b>
                             <CardSubtitle>Description: {blog.description}</CardSubtitle>
                             <Button color="info" id={blog.id} onClick={redirect}>Read</Button>
+                            <Button color="dark" outline className="m-1">
+                              <Badge  className="m-1 p-2"  color="primary"> <span>  <b>Votes: {blog.votes}</b> </span></Badge>
+                              <Badge className="m-1 p-2" color="success">  <span id={blog.id}  onClick={vote} title="up"  role="img" aria-label="emoji"className="m-2" >👍🏼</span> </Badge>
+                              <Badge className="m-1 p-2"  color="danger">   <span  id={blog.id} onClick={vote} title="down" role="img" aria-label="emoji" className="m-2">👎🏼</span> </Badge>
+                            </Button>
                         </CardBody>
                     </Card >
                 </Col>

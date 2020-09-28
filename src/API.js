@@ -16,7 +16,6 @@ class BlogApi{
 
     //  *   create a new post
     static async createPost(data) {
-        // let res =  await axios.post(`${BASE_URL}/api/posts`).send(data)
         let res = await axios({
             method: 'POST',
             url: `${BASE_URL}/api/posts`,
@@ -56,8 +55,28 @@ class BlogApi{
         return res
     }
 
+    static async updateComment(id, data) {
+        console.log(id, data)
+        let res = await axios({
+            method: "PUT",
+            url: `${BASE_URL}/api/posts/${id}/comments/${data.id}`,
+            data
+        })
+        return res
+
+    }
+
     static async deleteComment(postId,commentId) {
         await axios.delete(`${BASE_URL}/api/posts/${postId}/comments/${commentId}`)
+    }
+
+    static async Vote(id, direction) {
+        "/:id/vote/:direction"
+        let res = await axios({
+            method: "POST",
+            url: `${BASE_URL}/api/posts/${id}/vote/${direction}`
+        })
+        return res
     }
 }
 

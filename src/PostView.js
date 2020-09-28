@@ -4,7 +4,7 @@
 //  * should view a post with a certain id
 
 import React from 'react'
-import { useParams, useHistory, Redirect } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import {
     Card, CardBody,
     CardTitle, CardSubtitle,CardText, Col, Row

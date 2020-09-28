@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 
 import { Form, Input, Button, FormGroup } from 'reactstrap'
-import {addCommentOnApi, deleteCommentOnApi} from './actionCreators'
+import {addCommentOnApi, deleteCommentOnApi,updateCommentOnApi} from './actionCreators'
 
 export default function PostComments() {
     const { id } = useParams()
@@ -15,7 +15,8 @@ export default function PostComments() {
     const dispatch = useDispatch()
 
     const comments = blogs[id].comments
-    const [formData, setFormData] = useState({text: "" })
+    const [formData, setFormData] = useState({ text: "" })
+    let [updateCommentButton, setUpdateComment] = useState(false)
 
     function changeComment(e) {
         e.persist()
@@ -28,17 +29,24 @@ export default function PostComments() {
 
     function submit(e) {
         e.preventDefault()
-        //  todo: make api call here
         dispatch(addCommentOnApi(formData, id))
-        // dispatch({ type: "ADD_COMMENT_ON_POST", comment: formData, id })
-        // setFormData({text: "" })
+        setFormData({text: "" })
 
     }
 
     function deleteComment(e) {
-         //  todo CALL API HERE TOO
         dispatch(deleteCommentOnApi(id, e.target.id))
-        // dispatch({type:"DELETE_COMMENT_FROM_POST", id, commentId: e.target.id})
+    }
+    function updateComment(e) {
+
+        dispatch(updateCommentOnApi(formData, id))
+        setFormData({ text: "" })
+        setUpdateComment(false)
+    }
+    function setupUpdateComment(e) {
+        setUpdateComment(true)
+        let comment = comments.filter(comment => comment.id === e.target.id)[0]
+        setFormData(data => data = comment)
     }
     return (
         <div className="m-2">
@@ -50,9 +58,18 @@ export default function PostComments() {
                     <span role="img"
                         aria-label="emoji"
                             onClick={deleteComment}
-                            id={comment.id}>
+                        id={comment.id}
+                    className="m-2">
                         ❌
-                    </span> {` ${comment.text}`}
+                    </span>
+                    <span role="img"
+                        aria-label="emoji"
+                            onClick={setupUpdateComment}
+                        id={comment.id}
+                    className="m-2">
+                        🖋
+                    </span>
+                    {` ${comment.text}`}
                     </p>
             ))
             :
@@ -61,7 +78,8 @@ export default function PostComments() {
             <Form onSubmit={submit}>
                 <FormGroup>
                     <Input type="text" name="text" onChange={changeComment} value={formData.text}></Input>
-                    <Button  className="m-2"color="primary">Add</Button>
+                    {!updateCommentButton?<Button className="m-2" color="primary">Add</Button>: null}
+                    {updateCommentButton? <Button onClick={updateComment} className="m-2" color="warning">Update</Button>: null}
                 </FormGroup>
             </Form>
         </div>
